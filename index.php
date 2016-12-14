@@ -1,5 +1,5 @@
 
-<?php require 'php/Conection.php';?> <!--This is the connection file-->
+<?php require 'php/Conection.php';?> <!--This is the connection file -->
 <?php require 'php/user_info.php';?> <!--give me the user name-->
 <?php require 'php/email.php';?> <!--give me the users email-->
 <?php require 'php/CheckInsert.php';?> <!--this will check if the user exists, if they dont it will add them into the database, if they do it will carry on as normal-->
