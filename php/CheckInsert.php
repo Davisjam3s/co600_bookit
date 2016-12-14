@@ -66,15 +66,23 @@ mysqli_close($conn); // close our connection
 <script>
 	$('#button').click(function() { //wait for the button to be pressed, this will need a name change 
     var val1 = $('#Fullname').val(); // set val1 to the value in fullname
-	var val2 = $('#Campus').val(); // set val 2 to the value in campus
-	var val3 = $('#YearGroup').val(); // set val3 to the value in yeargroup
-    $.ajax({ // now the ajax
+	  var val2 = $('#Campus').val(); // set val 2 to the value in campus
+	  var val3 = $('#YearGroup').val(); // set val3 to the value in yeargroup
+    if (val2 == 'Medway' || val2 =='Canterbury') //check the values
+    {
+        $.ajax({ // now the ajax
         type: 'POST', // we are posting it 
         url: 'php/InsertUserInfo.php', // this is where we're posting 
         data: { Fullname: val1,Campus: val2, YearGroup: val3}, // set the php values
         success: function(response) { // this wont work lol, it does not need to, 
             $('#result').html(response);
         }
-    });
+        });
+    }
+     else
+     {
+      alert("no m8");
+     };
+
 });
 </script>
