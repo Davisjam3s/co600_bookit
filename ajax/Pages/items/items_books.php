@@ -5,7 +5,7 @@ echo "<p>Books</p>";
 <?php require '../../../php/Conection.php';
 
 
-$sql = "SELECT * FROM StubAsset where ItemType =2";
+$sql = "SELECT * FROM Asset where AssetTypeUID =2";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result) > 0) {
@@ -14,7 +14,7 @@ if (mysqli_num_rows($result) > 0) {
     	$ItemID =$row["AssetUID"];
     	$OwnerID =$row["OwnerUID"];
     	$ItemName =$row["AssetDescription"];
-    	$ImageLink =$row["Image"];
+    	$ImageLink =$row["AssetImage"];
         echo "<div class='catalog_item'><div class='item_overlay'>$ItemName</div> <img src='$ImageLink' height='160' width='170'> </div>";
     }
 } else {

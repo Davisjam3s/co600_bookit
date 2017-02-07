@@ -1,5 +1,5 @@
 <!--
-    ** This Is a page for deleting a  user into the Owner Database, this is actvated when the admin user wants to remove a user from the database. of course this page would first need to delete the assests that that user has within the database first 
+    ** This Is a page for adding a new user into the Owner Database, this is actvated when the admin user wants to add a new user into the database for staff where they can then add items into the database 
 
     ** It first gets the values from the ajax from on the Control.php page (found on /ajax/Pages/Admin) it sets the values posted and then uses them to create the first SQL statement
 
@@ -23,22 +23,43 @@
         
 -->
 <?php
-//read in variables
-$ItemName = $_POST['ItemName']; // for that ItemName 
+
+//Read variables from previous page
+$RoomName = $_POST['RoomName']; // for the room
+$Group = $_POST['Group']; // for the group
+$UserName = $_POST['UserName']; // for that username 
 
 require '../../../php/Conection.php'; //connect to server
 
-$ItemName = mysqli_real_escape_string($conn, $ItemName);
-$ItemName = strip_tags($ItemName);
+// escape special characters
+$RoomName = mysqli_real_escape_string($conn, $RoomName); // get rid of them injections
+$RoomName = strip_tags($RoomName); // what you tryin to do? dont be tryin that
+$Group = mysqli_real_escape_string($conn, $Group);
+$Group = strip_tags($Group);
+$UserName = mysqli_real_escape_string($conn, $UserName);
+$UserName = strip_tags($UserName);
 
-// gather information from their user account
-$sql = "DELETE FROM Asset WHERE AssetUID=$ItemName";
+$sql = "SELECT * FROM Owner WHERE OwnerUID = '$UserName'";
+$result = mysqli_query($conn, $sql);
 
-if ($conn->query($sql) === TRUE) {
-    echo "Record deleted successfully";
+if (mysqli_num_rows($result) > 0) {
+    // output data of each row
+    while($row = mysqli_fetch_assoc($result)) {
+        // we need to set the values of the info that we got from the user
+        $sql1 = "UPDATE Owner SET GroupUID = $Group, OwnerLocation='$RoomName' WHERE OwnerUID='$UserName'";
+
+		//display success or failure
+		if (mysqli_query($conn, $sql1)) {
+			echo " New record created successfully ";
+		} else {
+			echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+    }
 } else {
-    echo "Error deleting record: " . $conn->error;
+    echo "0 results";
 }
 
-$conn->close();
+
+//Clean up
+mysqli_close($conn);
 ?>

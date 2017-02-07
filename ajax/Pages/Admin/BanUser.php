@@ -24,21 +24,34 @@
 -->
 <?php
 //read in variables
-$ItemName = $_POST['ItemName']; // for that ItemName 
+$UserName = $_POST['UserName']; // for that username 
 
 require '../../../php/Conection.php'; //connect to server
 
-$ItemName = mysqli_real_escape_string($conn, $ItemName);
-$ItemName = strip_tags($ItemName);
+$UserName = mysqli_real_escape_string($conn, $UserName);
+$UserName = strip_tags($UserName);
+$UserBanned= 1;
 
 // gather information from their user account
-$sql = "DELETE FROM Asset WHERE AssetUID=$ItemName";
+$sql = "SELECT * FROM User WHERE UserUID = '$UserName'";
+$result = mysqli_query($conn, $sql);
 
-if ($conn->query($sql) === TRUE) {
-    echo "Record deleted successfully";
+if (mysqli_num_rows($result) > 0) {
+    // output data of each row
+    while($row = mysqli_fetch_assoc($result)) {
+        // we need to set the values of the info that we got from the user
+        $sql2 = "UPDATE User SET UserBanned=$UserBanned WHERE UserUID='$UserName'";
+
+		//display success or failure
+		if (mysqli_query($conn, $sql2)) {
+			echo " New record created successfully ";
+		} else {
+			echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+		}
+    }
 } else {
-    echo "Error deleting record: " . $conn->error;
+    echo "0 results";
 }
 
-$conn->close();
+mysqli_close($conn);
 ?>

@@ -1,4 +1,3 @@
-
 <script>
 	$('.agreeselect').on('change', function() {
 		if (this.value == 3) 
@@ -47,10 +46,10 @@
 	}
 
 </style><!-- dont worry fam, i will move these later-->
-	<p>Add Item(orginal)</p> <!--did you know, I The amazing james, Forgot to add this and broke the page for 3 hours?-->
-	<form name="usrform" class="addItemForm"> <!--thats right, a form, for doing formy things-->
+	<p>Add item 2</p> <!--did you know, I The amazing james, Forgot to add this and broke the page for 3 hours?-->
+	<form method="post" enctype="multipart/form-data" name="usrform" class="addItemForm"> <!--thats right, a form, for doing formy things-->
 		<input type="text" class="formItems" id="ItemName" required="true" placeholder="Item Name"><br>
-		<select class="formItems" id="ItemType">
+		<select class="formItems" id="Type">
 			<option value="" selected disabled>Type</option> <!--haha trying using that-->
 			<option value="1">Pi</option>
 			<option value="2">Book</option>
@@ -87,7 +86,7 @@
 		</select>
 		
 		<br>
-		<form  method="post" enctype="multipart/form-data">
+		
 		Select image to upload:
 		<input type="file" name="fileToUpload" id="fileToUpload">
 		<!--<input type="submit" value="Upload Image" name="submit">-->
@@ -104,18 +103,19 @@
 <script>
     $('#SubmitItem').click(function() { //wait for the button to be pressed, this will need a name change 
     var val1 = $('#ItemName').val(); // set val1 to the value in fullname
-    var val2 = $('#ItemType').val();
+    var val2 = $('#Type').val();
     var val3 = $('#Agreement').val();
     var val4 = $('#Restriction').val();
     var val5 = $('#Condition').val();
+	var val6 = $('#fileToUpload').val();
     
         $.ajax({ // now the ajax
         type: 'POST', // we are posting it 
-        url: 'ajax/Pages/Inventory/addItem2.php', // this is where we're posting 
-        data: { ItemName: val1, ItemType: val2, Agreement: val3, Restriction: val4, Condition:val5 }, // set the php values
+        url: 'ajax/Pages/Inventory/addItem11.php', // this is where we're posting 
+        data: { ItemName: val1, Type: val2, Agreement: val3, Restriction: val4, Condition:val5, fileToUpload:val6 }, // set the php values
         success: function(response) { // this wont work lol, it does not need to, 
             $('#result').html(response);
-            $(".holder").load("ajax/Pages/Inventory/current_inventory.php");
+            //$(".holder").load("ajax/Pages/Inventory/current_inventory.php");
         }
         });
 });
