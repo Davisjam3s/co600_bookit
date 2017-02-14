@@ -21,15 +21,28 @@
 	background-color: white;
 	position: absolute;
   bottom: 0;
+  width: 100%;
   word-wrap: normal
 	font-family: 'Amaranth', sans-serif;
 	text-transform: capitalize;
 	font-size: 1em;
-
+}
+.ItemPi{
+  background-color: yellow;
+  height: auto;
+  width: auto;
+}
+.ItemBook{
+  height: auto;
+  width: auto;
+}
+.ItemLego{
+  height: auto;
+  width: auto;
 }
 @media only screen and (max-width: 768px) {
     /* For mobile phones: */
-    .catalog_item{
+    .catalog_item {
     	width: 100%;
     	height: 20em;
       margin-left: 0;
