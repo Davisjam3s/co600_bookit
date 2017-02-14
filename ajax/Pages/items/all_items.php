@@ -43,10 +43,32 @@
       // output data of each row
     while($row = mysqli_fetch_assoc($result)) {
      $ItemID =$row["AssetUID"];
+     $AssetType = $row["AssetTypeUID"];
      $OwnerID =$row["OwnerUID"];
      $ItemName =$row["AssetDescription"];
      $ImageLink =$row["AssetImage"];
-     echo "<div class='catalog_item'><div class='item_overlay'>$ItemName</div> <img src='$ImageLink' height='160' width='170'> </div>";
+
+     if ($AssetType == 1) {
+       $AssetType = "Pi";
+       $TypeCss = "ItemPi";
+        $MyHeight = 283;
+       $MyWidth = 400;
+     }
+     if ($AssetType == 2) {
+       $AssetType = "Book";
+       $TypeCss = "ItemBook";
+       $MyHeight = 283;
+       $MyWidth = 220;
+     }
+      if ($AssetType == 3) {
+       $AssetType = "Lego";
+       $TypeCss = "ItemLego";
+       $MyHeight = 283;
+       $MyWidth = 400;
+     }
+
+
+     echo "<div class='catalog_item $TypeCss'><div class='item_overlay'>$ItemName $AssetType </div> <img src='ajax/Pages/Inventory/images/$ImageLink' height='$MyHeight' width='$MyWidth'> </div>";
    }
  } else {
   echo "0 results";
