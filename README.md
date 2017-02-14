@@ -1,2 +1,6 @@
-# co600_bookit
-A Project Create by James, Matt, Marie and the other guy
+Technical Lending Library for co600 Project
+by 
+Marie Hurkett, 
+James Davis,
+Matt Hood,
+Dominic Moseley,

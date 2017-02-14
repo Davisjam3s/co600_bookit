@@ -3,6 +3,7 @@
 <?php require 'php/user_info.php';?> <!--give me the user name-->
 <?php require 'php/email.php';?> <!--give me the users email-->
 <?php require 'php/CheckInsert.php';?> <!--this will check if the user exists, if they dont it will add them into the database, if they do it will carry on as normal-->
+<?php require 'php/banned.php';?>
 <?php require 'php/DoesUserExist.php';?>
 <!--this is some php for adding the user when they first log in-->
  <!--We better get on this lads and ladies thats right, im not sexist, take that feminists-->
@@ -72,22 +73,14 @@ I dont know why you're reading the code, there is nothing intresting here, unles
             <a href="index.php"><img onclick="HomeClick()" src="images/uni_logo.png"></a> <!--this is for the logo-->
             <ul class="ulmain mainnav"> <!--this is the orginal navagation menu-->
              
-              <li class="lihead"><a href="#" onclick="CatalogNav()">Catalogue</a></li> <!--whats this? you want to see the catalog? you better click here then-->
+              <li class="lihead"><a href="#" class="all">Catalogue</a></li> <!--whats this? you want to see the catalog? you better click here then-->
               <li class="lihead"><a href="#" class="currentBookings">My Bookings</a></li><!--oh you now want to see the bookings? guess you will be clcking this-->
               <?php require 'php/UserBar.php';?> <!--oh no, some wild PHP appeard, james Used display these items if the user is one of these, it was super effective-->
              
            </ul><!--end of orginal header-->
-
-           <ul class="ulmain ul2 catnav"> <!--this is for the catalog items, set to hidden, wont be displayed until activated by user-->
-             <li class="lihead"><a href="#" class="all">All</a></li>
-             <li class="lihead"><a href="#" class="lego">Lego</a></li>
-             <li class="lihead"><a href="#" class="pi">Pi's</a></li>
-             <li class="lihead"><a href="#" class="t4">Type 4</a></li>
-             <li class="lihead"><a href="#" class="books">Books</a></li>
-             <li class="lihead"><a href="#" class="back">Back</a></li> <!--helps navagate the menu-->
-           </ul> <!--end of catalog-->
            <ul class="ulmain ul4  invnav"><!--start of contact us-->
              <li class="lihead"><a href="#" class="addi">Add</a></li>
+             <li class="lihead"><a href="#" class="UploadAgree">Upload Agreement</a></li>
              <li class="lihead"><a href="#" class="CurrentInventory">Manage Inventory</a></li>
              <li class="lihead"><a href="#" class="back">Back</a></li>
            </ul> <!--end of the contact us menu-->
