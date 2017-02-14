@@ -3,7 +3,6 @@
         display: none;
     }
 </style>
-
 <script>
 $(document).ready(function() // wait till the page is ready
 {
@@ -28,38 +27,36 @@ echo "<p>Your Inventory</p>"; // dont delete this
 <?php require 'user_info.php' ?>
 <?php require '../../../php/Conection.php';?>
 <?php
-$sql = "SELECT * FROM Asset WHERE OwnerUID = '$user' ";
+$sql = "SELECT Asset.AssetUID,Agreement.AgreementUID,Agreement.AgreementName,Owner.OwnerUID,Asset.AssetTypeUID,Asset.AssetDescription,Asset.AssetCondition,Asset.AssetRestriction FROM Asset LEFT JOIN Owner ON Asset.OwnerUID=Owner.OwnerUID LEFT JOIN Agreement ON Asset.AgreementUID=Agreement.AgreementUID WHERE Owner.OwnerUID='$user'";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result) > 0) {
     // output data of each row
     echo "<table>
-		<tr>
+		<tr class='toptitles'>
 			<th>AssetUID</th>
+			<th>AgreementName</th>
 			<th>AgreementUID</th>
-			<th>OwnerUID</th>
 			<th>AssetTypeUID</th>
 			<th>AssetDescription</th>
 			<th>AssetCondition</th>
-			<th>assetImage</th>
 			<th>AssetRestriction</th>
-			<th>AssetInBasket</th>
-            <th>Delete</th>
-			<th>Edit</th>
+			<th>Delete</th>
+            <th>Edit</th>
 			
 		</tr>";
     while($row = mysqli_fetch_assoc($result)) 
     {
     	$Asset =$row["AssetUID"];
 		$AgreementType =$row["AgreementUID"];
-    	$Owner =$row["OwnerUID"];
+		$AgreementName = $row["AgreementName"];
 		$AssetType = $row['AssetTypeUID'];
     	$AssetDescription =$row["AssetDescription"];
 		$AssetCondition =$row["AssetCondition"];
-    	$Image =$row["AssetImage"];
+    	
     	$ItemType =$row["AssetTypeUID"];   	
-    	$Restrictions =$row["AssetRestriction"];
-    	$InBasket =$row["AssetInBasket"];
+    	$Restriction =$row["AssetRestriction"];
+    	
     	
 
     	if ($AgreementType == 3 ) {
@@ -70,6 +67,9 @@ if (mysqli_num_rows($result) > 0) {
         }
          if ($AgreementType == 5 ) {
             $AgreementType = 'Matteo Agree';
+        }
+         if ($AgreementType == 6 ) {
+            $AgreementType = 'None';
         }
     	
     	if ($ItemType == 1 ) {
@@ -93,32 +93,55 @@ if (mysqli_num_rows($result) > 0) {
     	if ($AssetCondition == 4 ) {
     		$AssetCondition = 'Broken';
     	}
-		if ($Restrictions ==1){
-			$Restrictions = 'All';
+		if ($Restriction ==1){
+			$Restriction = 'All';
 		}
-		if ($Restrictions ==2){
-			$Restrictions = 'Third Year and Above';
+		if ($Restriction ==2){
+			$Restriction = 'Third Year and Above';
 		}
-		if ($Restrictions ==3){
-			$Restrictions = 'Post Grads only';
+		if ($Restriction ==3){
+			$Restriction = 'Post Grads only';
 		}
-		if ($Restrictions ==4){
-			$Restrictions = 'Tutors only';
+		if ($Restriction ==4){
+			$Restriction = 'Tutors only';
 		}
 
 
-    	 echo "<tr>
+    	 echo "<tr class='$Asset'>
 		    	 <td>$Asset</td>
-		    	 <td>$AgreementType</td>
-		    	 <td>$Owner</td>
+				 <td>$AgreementName</td>
+		    	 <td>
+                    <select class='Agreement$Asset' disabled='true'>
+                        <option value='' selected disabled>$AgreementType</option>
+                        <option value='3'>EEG Agreement</option>
+                        <option value='4'>Ians Agreement</option>
+                        <option value='5'>Matteo Agreement</option>
+                        <option value='6'>None</option>
+                    </select>
+                 </td>
+
 		    	 <td>$ItemType</td>
-		    	 <td>$AssetDescription</td>
-		    	 <td>$AssetCondition</td>
-		    	 <td><img src='$Image' height='60' width='100'></td>
-		    	 <td>$Restrictions</td>
-		    	 <td>$InBasket</td>
-                 <td><button class='deleteItem' value='$Asset'>Delete</button></td>
-				 <td><button class='editItem' value='$Asset'>Edit</button></td>
+		    	 <td><input class='Description$Asset' disabled='true'  value='$AssetDescription'></td>
+		    	 <td>
+                    <select class='Condition$Asset' disabled='true'>
+                        <option value='' selected disabled>$AssetCondition</option>
+                        <option value='1'>Perfect</option>          
+                        <option value='2'>Minor scuffs</option>
+                        <option value='3'>Some Damage</option>
+                        <option value='4'>Broken</option>
+                     </select>
+                 </td>
+		    	 <td>
+                    <select class='Restriction$Asset' disabled='true'>
+                        <option value='' selected disabled>$Restriction</option>
+                        <option value='1'>All</option>
+                        <option value='2'>Third Year or Above</option>
+                        <option value='3'>PostGrad only</option>
+                        <option value='4'>Tutors Only</option>
+                    </select>
+                 </td>
+                 <td><button class='deleteItem' value='$Asset' id='Infobutton1'>Delete</button></td>
+                 <td><button class='editItem' value='$Asset' id='Infobutton2'>Edit</button></td>
     	 		</tr>"; // delete does not do anything yet
     }
 } else
@@ -127,6 +150,36 @@ if (mysqli_num_rows($result) > 0) {
 }
 mysqli_close($conn);
 ?>
+<script>
+$(document).ready(function() // wait till the page is ready
+{
+    $(".editItem").click(function() // wait till this button has been pressed
+      { 
+            var  jam =  $(this).val(); // value of the button 
+           
+          $( "input[class*="+jam+"]" ).prop('disabled',false).height(40); // enable any class with varible
+          $( "select[class*="+jam+"]" ).prop('disabled',false).height(40); // enable any input type select with varible 
+          $( "input[class|='Description"+jam+"']" ).attr("id","Description");
+          $( "select[class|='Agreement"+jam+"']" ).attr("id","Agreement");
+          $( "select[class|='Condition"+jam+"']" ).attr("id","Condition");
+          $( "select[class|='Restriction"+jam+"']" ).attr("id","Restriction");
+
+
+          // this jquery enables the text box when the button is pressed, it also sets an attribute to the ones that are selected, givving them the ID that will be used to send to the database 
+          // var jam is used to store the value that is collected from the button 
+          //$("tr").not("tr[class*="+jam+"]").hide("slow");
+      });
+  });
+$(document).ready(function() // wait till the page is ready
+{
+    $(".Done").click(function() // wait till this button has been pressed
+      { 
+            var  jam =  $(this).val();
+          $( "input[class*="+jam+"]" ).prop('disabled',true);
+      });
+  });
+</script>
+
 
 <div class='phpechofront1'>
     <h1 class='agreeTitle'>Removing Item</h1>
@@ -134,15 +187,16 @@ mysqli_close($conn);
         <input type='text' id='ItemName' required class ='FormItems testname' disabled='true'>
     <span id='error'></span>
         <button id='Infobutton1' class='FormItems'> Submit </button>
-        <button id='CancelDelete' class='FormItems'> Cancel </button>
+        <button  class='FormItems CancelDelete'> Cancel </button>
 </div>
+
 <div class='phpechofront2'>
     <h1 class='agreeTitle'>Editing Item</h1>
-    <h2 class='help'>Complete this Form to edit your Asset</h2>
+    <h2 class='help'>Edit this fine Asset</h2>
         <input type='text' id='ItemName' required class ='FormItems testname' disabled='true'>
     <span id='error'></span>
         <button id='Infobutton2' class='FormItems'> Submit </button>
-        <button id='CancelDelete' class='FormItems'> Cancel </button>
+        <button   class='FormItems CancelDelete'> Cancel </button>
 </div>
 <script>
 $(document).ready(function() {
@@ -165,21 +219,21 @@ $(document).ready(function() {
 <script>
 $(document).ready(function() // wait till the page is ready
 {
-    $("#CancelDelete").click(function() // wait till this button has been pressed
+    $(".CancelDelete").click(function() // wait till this button has been pressed
       { 
-          $(".phpechofront1").hide(); // show the main nav
-		  $(".phpechofront2").hide(); // show the main nav
+       $(".holder").load("ajax/Pages/Inventory/current_inventory.php");
       });
   });
 </script>
 <script>
     $('#Infobutton1').click(function() { //wait for the button to be pressed, this will need a name change 
        var val1 = $('#ItemName').val(); 
+
         
         $.ajax({ // now the ajax
         type: 'POST', // we are posting it 
         url: 'ajax/Pages/Inventory/remove_inventory.php', // this is where we're posting 
-        data: { ItemName: val1}, // set the php values
+        data: { AssetUID: val1}, // set the php values
         success: function(response) { // this wont work lol, it does not need to, 
             $('#result').html(response);
             $(".holder").load("ajax/Pages/Inventory/current_inventory.php");
@@ -189,16 +243,21 @@ $(document).ready(function() // wait till the page is ready
 </script>
 <script>
     $('#Infobutton2').click(function() { //wait for the button to be pressed, this will need a name change 
-       var val1 = $('#ItemName').val(); 
+     var val1 = $('#ItemName').val();
+	   var val2 = $('#Description').val();
+	   var val3 = $('#Agreement').val();
+	   var val4 = $('#Condition').val();
+	   var val5 = $('#Restriction').val();
         
         $.ajax({ // now the ajax
         type: 'POST', // we are posting it 
         url: 'ajax/Pages/Inventory/edit_inventory.php', // this is where we're posting 
-        data: { ItemName: val1}, // set the php values
+        data: { AssetUID: val1,Description: val2,Agreement: val3,Condition: val4,Restriction: val5}, // set the php values
         success: function(response) { // this wont work lol, it does not need to, 
             $('#result').html(response);
-            $(".holder").load("ajax/Pages/Inventory/edit_inventory.php");
+            $(".holder").load("ajax/Pages/Inventory/current_inventory.php");
         }
         });
 });
 </script>
+</table>

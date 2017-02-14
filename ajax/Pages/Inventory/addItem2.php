@@ -34,6 +34,8 @@ $Restriction = strip_tags($Restriction);
 $Condition = mysqli_real_escape_string($conn, $Condition);
 $Condition = strip_tags($Condition);
 
+
+
 if ($ItemType == 1) {
 	$Image = 'images/items/pi.jpg';
 }
@@ -44,7 +46,14 @@ if ($ItemType == 3) {
 	$Image = 'images/items/lego.jpg';
 }
 if ($ItemType == 4) {
-	$Image = 'images/items/fry.jpg';
+	 $testme = rand(1, 2);
+		if ($testme == 1) {
+			$Image = 'images/items/fry.jpg';
+		}
+		else{
+			$Image = 'images/items/jezz.jpg';
+		}
+	
 }
 
 
