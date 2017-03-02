@@ -1,10 +1,11 @@
 
 <?php require 'php/Conection.php';?> <!--This is the connection file-->
+<?php require 'test/Ft/FirstTime.php';?>
 <?php require 'php/user_info.php';?> <!--give me the user name-->
 <?php require 'php/email.php';?> <!--give me the users email-->
-<?php require 'php/CheckInsert.php';?> <!--this will check if the user exists, if they dont it will add them into the database, if they do it will carry on as normal-->
+ <!--this will check if the user exists, if they dont it will add them into the database, if they do it will carry on as normal-->
 <?php require 'php/banned.php';?>
-<?php require 'php/DoesUserExist.php';?>
+
 <!--this is some php for adding the user when they first log in-->
  <!--We better get on this lads and ladies thats right, im not sexist, take that feminists-->
 <!--don't break anything
@@ -39,6 +40,7 @@ I dont know why you're reading the code, there is nothing intresting here, unles
 <link rel="stylesheet" type="text/css" href="css/agreeForm.css"/> <!--this is for the agree form-->
 <link rel="stylesheet" type="text/css" href="css/tables.css"/> <!--this is for the tables on the booking pages-->
 <link rel="stylesheet" type="text/css" href="css/InfoFrom.css"/>
+<link rel="stylesheet" type="text/css" href="css/TableHeaders.css">
 <!--end of styles-->
  <!--Scripts-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> <!--thats right jquery is being used here, you better use them libarys rather than doing it the long way-->
@@ -49,9 +51,6 @@ I dont know why you're reading the code, there is nothing intresting here, unles
 <script type="text/javascript" src="js/InventoryHeader.js"></script><!--yes yes, the inventory header, this does some loading -->
 <!--end of scripts-->
 <!--this is some amaxing tests fam-->
-
-<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
-<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 <script src="js/adminHeader.js"></script>
 <script>
@@ -76,17 +75,19 @@ I dont know why you're reading the code, there is nothing intresting here, unles
               <li class="lihead"><a href="#" class="all">Catalogue</a></li> <!--whats this? you want to see the catalog? you better click here then-->
               <li class="lihead"><a href="#" class="currentBookings">My Bookings</a></li><!--oh you now want to see the bookings? guess you will be clcking this-->
               <?php require 'php/UserBar.php';?> <!--oh no, some wild PHP appeard, james Used display these items if the user is one of these, it was super effective-->
-             
+              <?php require 'php/UserBarAdmin.php';?> <!--oh no, some wild PHP appeard, james Used display these items if the user is one of these, it was super effective-->
            </ul><!--end of orginal header-->
            <ul class="ulmain ul4  invnav"><!--start of contact us-->
-             <li class="lihead"><a href="#" class="addi">Add</a></li>
-             <li class="lihead"><a href="#" class="UploadAgree">Upload Agreement</a></li>
+             <li class="lihead"><a href="#" class="addi">Add Asset</a></li>
+             <li class="lihead"><a href="#" class="UploadAgree">Add Agreement</a></li>
+			 <li class="lihead"><a href="#" class="CurrentAgreement">View Agreements</a></li>
              <li class="lihead"><a href="#" class="CurrentInventory">Manage Inventory</a></li>
              <li class="lihead"><a href="#" class="back">Back</a></li>
            </ul> <!--end of the contact us menu-->
            <ul class="ulmain ul5  adminnav"> <!--start of bookings menu-->
-             <li class="lihead"><a href="#" class="Control">Control</a></li>
-             <li class="lihead"><a href="#" class="Manage">Manage</a></li>
+             <li class="lihead"><a href="#" class="Manage">Manage Users</a></li>
+			 <li class="lihead"><a href="#" class="Control">Owner Control</a></li>
+			 <li class="lihead"><a href="#" class="Edit">Edit Owner</a></li>
              <li class="lihead"><a href="#" class="back">Back</a></li>
            </ul> <!--end of bookings menu-->
          </nav> <!--end of the navagation menu-->
@@ -105,6 +106,6 @@ I dont know why you're reading the code, there is nothing intresting here, unles
       <div class="holder">Nothing to display</div> <!--hidden div which will contain working 
       ajax when needed-->
 
-    </section> <!--end of section which should contain things within the page.-->	
+    </section> <!--end of section which should contain things within the page.--> 
   </body>
   </html>

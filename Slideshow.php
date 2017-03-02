@@ -1,4 +1,12 @@
-
+<script>
+    $(document).ready(function() {
+        $('.catalog_item').click(function() {
+            var jamjam = $(this).attr("value");
+            $(".mainp").hide();
+            $(".holder").load("ItemPage/GetItemInfro.php?id="+jamjam+"");
+        });
+    });
+</script>
 <style>
 .mySlides {
     display:none;
@@ -60,6 +68,7 @@ h1{
   <img class="mySlides" src="images/slideshow/pic2.jpg">
   <img class="mySlides" src="images/slideshow/pic3.jpg">
   <img class="mySlides" src="images/slideshow/pic4.jpg">
+  <img class="mySlides" src="images/slideshow/matt.jpeg">
   <img class="mySlides" src="images/slideshow/pic5.jpg">
   <img class="mySlides" src="images/slideshow/pic6.jpg">
   <img class="mySlides" src="images/slideshow/pic7.jpg">
@@ -82,63 +91,42 @@ function carousel() {
     setTimeout(carousel, 2500); // Change image speed
 }
 </script>
-<div class="newhold">
-<div class="innerbox">
-   <h1>maybe we</h1>
-   ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-   tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-   quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-   consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-   cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-   proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-</div>
-<div class="innerbox">
-    <h1>should put</h1>
-    ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-   tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-   quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-   consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-   cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-   proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-</div>
-<div class="innerbox">
-    <h1>somthing here?</h1>
-    ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-   tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-   quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-   consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-   cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-   proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-</div>
-<div class="newhold">
-<div class="innerbox">
-   <h1>and maybe</h1>
-   ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-   tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-   quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-   consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-   cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-   proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-</div>
-<div class="innerbox">
-    <h1>change the </h1>
-    ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-   tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-   quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-   consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-   cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-   proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-</div>
-<div class="innerbox">
-    <h1>colour?</h1>
-    ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-   tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-   quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-   consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-   cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-   proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-</div>
+<?php require 'php/Conection.php';
 
-</div>
+  // selecting all the assets from the asset table, then ordering them, maybe we dont need order by random, but its looks different each time yo
+  $sql = "SELECT * FROM Asset where AssetTypeUID = 1 ORDER BY RAND() limit 11";
+  $result = mysqli_query($conn, $sql);
+
+  //once we got that stuff from the db
+  if (mysqli_num_rows($result) > 0) {
+      // output data of each row
+    while($row = mysqli_fetch_assoc($result)) {
+     $ItemID =$row["AssetUID"];
+     $AssetType = $row["AssetTypeUID"];
+     $OwnerID =$row["OwnerUID"];
+     $ItemName =$row["AssetDescription"];
+     $ImageLink =$row["AssetImage"];
+
+     if ($AssetType == 1) { // Book
+       $AssetType = "Book"; // Book
+       $TypeCss = "ItemBook"; // ItemBook
+       $MyHeight = 250;
+       $MyWidth = 145;
+       // set the hight and width for different types of Item that is on the page 
+     }
+     
+
+     echo "<div class='catalog_item $TypeCss' value='$ItemID '><div class='item_overlay'>$ItemName $AssetType </div> <img src='ajax/Pages/Inventory/images/$ImageLink' height='$MyHeight' width='$MyWidth'> </div>";
+   }
+ } else {
+  echo "0 results";
+}
+
+mysqli_close($conn);
+
+
+?>
+
+
 
 
